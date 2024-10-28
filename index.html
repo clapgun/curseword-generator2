@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Compound Curse Word Generator</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background-color: #f4f4f4;
+            text-align: center;
+        }
+        h1 {
+            font-size: 1.5em;
+        }
+        button, input {
+            width: 90%;
+            padding: 10px;
+            margin: 10px 0;
+            font-size: 1em;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+        #result {
+            margin-top: 20px;
+            font-size: 1.2em;
+            color: #333;
+        }
+    </style>
+    <script>
+        const list1 = ["Dumb", "Scum", "Douche", "Shit", "Dick", "Fuck", "Dip", "Ass", "Dog", "Lib", "Butt", "Cock", "Dirt", "Bum", "Trump", "Twat", "Cum", "Piss", "Wank", "Poop"];
+        const list2 = ["Ass", "Bag", "Shit", "Head", "Hat", "Tard", "Fuck", "Lord", "Wit", "Face", "Wad", "Sucker", "Boy", "Stain", "Stick", "Nozzle", "Clown", "Waffle", "Nugget", "Goblin"];
+
+        function getRandomInt(max) {
+            return Math.floor(Math.random() * max);
+        }
+
+        function generateRandomCompound() {
+            const index1 = getRandomInt(list1.length);
+            const index2 = getRandomInt(list2.length);
+            const word1 = list1[index1];
+            const word2 = list2[index2];
+            document.getElementById("result").innerText = `${word1 + word2} (${index1 + 1}-${index2 + 1})`;
+        }
+
+        function generateCompoundFromInput() {
+            const index1 = parseInt(document.getElementById("index1").value) - 1; // Convert 1-based to 0-based
+            const index2 = parseInt(document.getElementById("index2").value) - 1; // Convert 1-based to 0-based
+            if (index1 >= 0 && index1 < list1.length && index2 >= 0 && index2 < list2.length) {
+                const word1 = list1[index1];
+                const word2 = list2[index2];
+                document.getElementById("result").innerText = `${word1 + word2} (${index1 + 1}-${index2 + 1})`;
+            } else {
+                document.getElementById("result").innerText = "Error - Enter numbers from 1 to 20.";
+            }
+        }
+    </script>
+</head>
+<body>
+    <h1>Compound Curseword Generator</h1>
+    <button onclick="generateRandomCompound()">Generate Random Compound Word</button>
+    <br>
+    <input type="number" id="index1" placeholder="Number from 1-20 for Prefix" min="1" max="20">
+    <input type="number" id="index2" placeholder="Number from 1-20 for Suffix" min="1" max="20">
+    <button onclick="generateCompoundFromInput()">Generate Compound Curse Word From Numbers</button>
+    <div id="result"></div>
+</body>
+</html>
