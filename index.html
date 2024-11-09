@@ -37,12 +37,19 @@
             return Math.floor(Math.random() * max);
         }
 
+        function speak(text) {
+            const utterance = new SpeechSynthesisUtterance(text);
+            speechSynthesis.speak(utterance);
+        }
+
         function generateRandomCompound() {
             const index1 = getRandomInt(list1.length);
             const index2 = getRandomInt(list2.length);
             const word1 = list1[index1];
             const word2 = list2[index2];
-            document.getElementById("result").innerText = `${word1 + word2} (${index1 + 1}-${index2 + 1})`;
+            const compoundWord = word1 + word2;
+            document.getElementById("result").innerText = `${compoundWord} (${index1 + 1}-${index2 + 1})`;
+            speak(compoundWord);  // Only speaking the compound word
         }
 
         function generateCompoundFromInput() {
@@ -51,9 +58,13 @@
             if (index1 >= 0 && index1 < list1.length && index2 >= 0 && index2 < list2.length) {
                 const word1 = list1[index1];
                 const word2 = list2[index2];
-                document.getElementById("result").innerText = `${word1 + word2} (${index1 + 1}-${index2 + 1})`;
+                const compoundWord = word1 + word2;
+                document.getElementById("result").innerText = `${compoundWord} (${index1 + 1}-${index2 + 1})`;
+                speak(compoundWord);  // Only speaking the compound word
             } else {
-                document.getElementById("result").innerText = "Error - Enter numbers from 1 to 20.";
+                const errorText = "Error - Enter numbers from 1 to 20.";
+                document.getElementById("result").innerText = errorText;
+                speak(errorText);
             }
         }
     </script>
