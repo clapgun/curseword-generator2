@@ -28,18 +28,75 @@
             font-size: 1.2em;
             color: #333;
         }
+        .toggle-section {
+            margin: 20px 0;
+            font-size: 1.2em;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .toggle-switch {
+            position: relative;
+            display: inline-block;
+            width: 60px;
+            height: 34px;
+        }
+        .toggle-switch input {
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+        .slider {
+            position: absolute;
+            cursor: pointer;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: #ccc;
+            transition: .4s;
+            border-radius: 34px;
+        }
+        .slider:before {
+            position: absolute;
+            content: "";
+            height: 26px;
+            width: 26px;
+            left: 4px;
+            bottom: 4px;
+            background-color: white;
+            transition: .4s;
+            border-radius: 50%;
+        }
+        input:checked + .slider {
+            background-color: #2196F3;
+        }
+        input:checked + .slider:before {
+            transform: translateX(26px);
+        }
+        .toggle-label {
+            margin-left: 15px;
+        }
     </style>
     <script>
         const list1 = ["Dumb", "Scum", "Douche", "Shit", "Dick", "Fuck", "Dip", "Ass", "Dog", "Lib", "Butt", "Cock", "Dirt", "Bum", "Trump", "Twat", "Cum", "Piss", "Wank", "Poop"];
         const list2 = ["Ass", "Bag", "Shit", "Head", "Hat", "Tard", "Fuck", "Lord", "Wit", "Face", "Wad", "Sucker", "Boy", "Stain", "Stick", "Nozzle", "Clown", "Waffle", "Nugget", "Goblin"];
+
+        let isSpeechEnabled = false;
+
+        function toggleSpeech() {
+            isSpeechEnabled = !isSpeechEnabled;
+        }
 
         function getRandomInt(max) {
             return Math.floor(Math.random() * max);
         }
 
         function speak(text) {
-            const utterance = new SpeechSynthesisUtterance(text);
-            speechSynthesis.speak(utterance);
+            if (isSpeechEnabled) {
+                const utterance = new SpeechSynthesisUtterance(text);
+                speechSynthesis.speak(utterance);
+            }
         }
 
         function generateRandomCompound() {
@@ -49,18 +106,18 @@
             const word2 = list2[index2];
             const compoundWord = word1 + word2;
             document.getElementById("result").innerText = `${compoundWord} (${index1 + 1}-${index2 + 1})`;
-            speak(compoundWord);  // Only speaking the compound word
+            speak(compoundWord);
         }
 
         function generateCompoundFromInput() {
-            const index1 = parseInt(document.getElementById("index1").value) - 1; // Convert 1-based to 0-based
-            const index2 = parseInt(document.getElementById("index2").value) - 1; // Convert 1-based to 0-based
+            const index1 = parseInt(document.getElementById("index1").value) - 1;
+            const index2 = parseInt(document.getElementById("index2").value) - 1;
             if (index1 >= 0 && index1 < list1.length && index2 >= 0 && index2 < list2.length) {
                 const word1 = list1[index1];
                 const word2 = list2[index2];
                 const compoundWord = word1 + word2;
                 document.getElementById("result").innerText = `${compoundWord} (${index1 + 1}-${index2 + 1})`;
-                speak(compoundWord);  // Only speaking the compound word
+                speak(compoundWord);
             } else {
                 const errorText = "Error - Enter numbers from 1 to 20.";
                 document.getElementById("result").innerText = errorText;
@@ -70,12 +127,21 @@
     </script>
 </head>
 <body>
-    <h1>Compound Curseword Generator</h1>
+    <h1>Compound Curse Word Generator</h1>
     <button onclick="generateRandomCompound()">Generate Random Compound Word</button>
     <br>
     <input type="number" id="index1" placeholder="Number from 1-20 for Prefix" min="1" max="20">
     <input type="number" id="index2" placeholder="Number from 1-20 for Suffix" min="1" max="20">
     <button onclick="generateCompoundFromInput()">Generate Compound Curse Word From Numbers</button>
+
+    <div class="toggle-section">
+        <label class="toggle-switch">
+            <input type="checkbox" onclick="toggleSpeech()">
+            <span class="slider"></span>
+        </label>
+        <span class="toggle-label">Enable Speech</span>
+    </div>
+
     <div id="result"></div>
 </body>
 </html>
